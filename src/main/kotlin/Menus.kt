@@ -1,28 +1,46 @@
 class Menus {
 
     fun mainMenu() {
-        println("Добро пожаловать в консольное приложение \"Заметки\".")
         while (true) {
-            println("Главное Меню")
-            println("Введите цифру для выбора действия:  \n 1. Создать архив. \n 2. Список текущих архивов. \n 3. Завершение работы")
-            val sc = UserInput().menuInput()
+            println("-----------------------\n     ГЛАВНОЕ МЕНЮ \n-----------------------")
+            println("Введите цифру для выбора действия:  \n 1. Создать архив. \n 2. Список архивов. \n 3. Завершение работы.")
+            val sc = UserInput().menuInput(4)
             when (sc) {
-                "1" -> Archive()
-                "2" -> 123
-                "3" -> break
+                1 -> Archive().createArchive()
+                2 -> archivesMenu()
+                3 -> { println("Спасибо что воспользовались этой программой! Досвидания!")
+                    break
+                }
             }
         }
     }
-    fun createArchivesMenu () {
+
+    private fun archivesMenu() {
+        val num = allArchivesList.size
+        if (allArchivesList.isEmpty()) {
+            println("На данный момент не создан ни один архив!")
+        } else {
+            while (true) {
+                println("-----------------------\n      МЕНЮ АРХИВОВ \n-----------------------")
+                Archive().allArchives()
+                println("Введите номер архива : \n ${num + 1}. Назад.")
+                when (val sc = UserInput().menuInput(num+2)) {
+                    in 1 until num + 1 -> singleArchiveMenu(allArchivesList[sc - 1])
+                    num + 1 -> break
+                }
+            }
+        }
+    }
+
+    private fun singleArchiveMenu (archive: Archive) {
         while (true) {
-            println("Меню Архивов")
-            println("Введите цифру для выбора:  \n 1. Создать архив с заметками. \n 2. Открыть созданные архивы. \n 3. Завершение работы")
-            val sc = UserInput().menuInput()
+            println("-----------------------\n  МЕНЮ АРХИВА \"${archive.archiveName}\" \n-----------------------")
+            println("Введите цифру для выбора действия:  \n 1. Добавить заметку в архив. \n 2. Список заметок архива. \n 3. Назад.")
+            val sc = UserInput().menuInput(4)
             when (sc) {
-                //"1" -> Archives()
-                "2" -> println("222")
-                "3" -> println("333")
-                "4" -> break
+                1 -> Note().createNote(archive)
+                2 -> Note().allNotes(archive)
+                3 -> break
             }
         }
     }

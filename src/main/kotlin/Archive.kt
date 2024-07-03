@@ -1,19 +1,21 @@
-class Archive (
-    private var archiveName: String,
-    private val archiveList: MutableList<Note>
+data class Archive (
+    val archiveName: String,
+    val archiveList: MutableList<Note>
 ) {
-    init {
-        val allArchivesMap: MutableMap<String, MutableList<Note>> = mutableMapOf()
-            println("Введите название нового архива:")
-            archiveName = UserInput().textInput()
-            allArchivesMap.put(archiveName, archiveList)
-
-            println("Архив с названием \"$archiveName\" создан " + archiveList)
-            println("Текущий список ваших архивов $allArchivesMap")
-        Menus().mainMenu()
-    }
     constructor() : this("", mutableListOf())
-    fun allArchives () {
-        println(archiveList)
+
+    fun createArchive(): Archive {
+        println("Введите название нового архива:")
+        val newArchive = Archive(UserInput().textInput(), mutableListOf())
+        allArchivesList.add(newArchive)
+        println("Архив под именем \"${newArchive.archiveName}\" успешно добавлен!")
+        return newArchive
+    }
+
+    fun allArchives() {
+            for (i in allArchivesList.indices) {
+                println("Архив номер : ${i+1} \nНазвание : ${allArchivesList[i].archiveName} \nКолличество заметок : ${allArchivesList[i].archiveList.size} \n-----------------------")
+            }
+
     }
 }
