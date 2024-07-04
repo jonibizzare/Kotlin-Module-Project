@@ -23,7 +23,11 @@ class Menus {
             while (true) {
                 println("-----------------------\n      МЕНЮ АРХИВОВ \n-----------------------")
                 Archive().allArchives()
-                println("Введите номер архива : \n ${num + 1}. Назад.")
+                println("Введите номер архива:")
+                for (i in allArchivesList.indices) {
+                    println(" ${i + 1}. ${allArchivesList[i].archiveName}")
+                }
+                println(" ${num + 1}. Назад.")
                 when (val sc = UserInput().menuInput(num+2)) {
                     in 1 until num + 1 -> singleArchiveMenu(allArchivesList[sc - 1])
                     num + 1 -> break
